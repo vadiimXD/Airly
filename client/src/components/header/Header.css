@@ -1,0 +1,55 @@
+header nav {
+  display: flex !important;
+  justify-content: flex-start !important; 
+  gap: 16px;
+}
+
+.nav-right {
+  margin-left: auto !important;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-left, .nav-right {
+  flex-shrink: 0;
+}
+
+.brand{
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 18px;
+  color: #fff;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1100;
+  background: #202020;
+  color: #fff;
+  padding: 8px 12px;
+  border-top: 4px solid #3a3a3a;
+  border-bottom: 2px solid #2f2f2f;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.25);
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.search-input {
+  width: 320px;
+  max-width: 44vw;
+  height: 36px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  background: #fff;
+  color: #111;
+}
