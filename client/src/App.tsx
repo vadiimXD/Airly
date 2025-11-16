@@ -1,13 +1,14 @@
 import './App.css'
 import Header from './components/header/Header'
 import Footer from './components/footer/Footer'
+import Home from './components/home/Home'
 
 function App() {
   return (
     <>
-    <Header/>
-    <h1>Airly</h1>
-    <Footer/>
+      <Header />
+      <Home />
+      <Footer />
     </>
   )
 }

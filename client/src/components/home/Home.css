@@ -1,0 +1,222 @@
+:root {
+  --topbar-bg: #202020;    /* shared dark background for header/footer */
+  --topbar-border: #3a3a3a;
+  --accent: #ff7a00;
+  --muted: #cfcfd1;
+  --surface: #1b1b1b;      /* cards / small panels */
+  --fg: #ffffff;
+}
+
+/* Ensure content isn't hidden behind fixed header/footer */
+.home-root {
+  padding-top: 72px;    /* adjust to your header height */
+  padding-bottom: 72px; /* adjust to your footer height */
+  min-height: calc(100vh - 144px);
+  background: linear-gradient(180deg, #f7f7f8 0%, #ffffff 100%);
+  color: #111;
+  font-family: Inter, Roboto, system-ui, Arial, sans-serif;
+}
+
+/* HERO */
+.hero {
+  max-width: 1200px;
+  margin: 18px auto;
+  padding: 18px;
+}
+
+.hero-inner {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  background: transparent;
+}
+
+/* Left: branding and actions */
+.hero-left {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1 1 60%;
+  color: #111;
+}
+
+/* Shared icon circle */
+.material-symbols-outlined.sized {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255,122,0,0.09);
+  color: var(--accent);
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.hero-title {
+  font-size: 34px;
+  margin: 0;
+  color: var(--topbar-bg);
+}
+
+.hero-sub {
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: 600;
+  border: none;
+  font-size: 14px;
+}
+
+.btn.primary {
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn.ghost {
+  background: transparent;
+  border: 1px solid rgba(0,0,0,0.06);
+  color: var(--topbar-bg);
+}
+
+.btn.link {
+  background: transparent;
+  color: var(--topbar-bg);
+  padding: 6px 8px;
+}
+
+/* Right: quick search + preview - keep same styles as header search */
+.hero-right {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-end;
+  flex: 0 0 320px;
+}
+
+/* Search input/button */
+.search-input {
+  width: 220px;
+  height: 36px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: none;
+  background: #fff;
+  color: #111;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.08) inset;
+}
+
+.search-btn {
+  height: 36px;
+  padding: 0 10px;
+  border-radius: 6px;
+  background: var(--topbar-bg);
+  color: var(--fg);
+  border: 1px solid rgba(255,255,255,0.04);
+  cursor: pointer;
+}
+
+/* weather preview panel uses surface color (darker) */
+.weather-preview {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  background: var(--surface);
+  padding: 12px;
+  border-radius: 8px;
+  color: var(--fg);
+}
+.weather-preview .temp {
+  font-size: 28px;
+  font-weight: 700;
+}
+.weather-preview .cond {
+  color: var(--muted);
+}
+
+/* CARDS GRID - dark cards using same surface color */
+.cards {
+  max-width: 1200px;
+  margin: 10px auto;
+  padding: 12px;
+}
+.cards-inner {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--surface);
+  padding: 12px;
+  border-radius: 8px;
+  color: var(--fg);
+  box-shadow: 0 1px 0 rgba(0,0,0,0.15);
+}
+.card-title {
+  margin: 0 0 4px 0;
+  font-size: 14px;
+  color: #fff;
+}
+.card-sub {
+  font-size: 12px;
+  color: var(--muted);
+}
+.card-value {
+  font-weight: 700;
+  font-size: 20px;
+}
+.card-info {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* ABOUT box - use white surface for readability */
+.about {
+  max-width: 900px;
+  margin: 18px auto 80px;
+  padding: 16px;
+  color: #111;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+}
+.about-inner h2 {
+  margin-top: 0;
+}
+
+/* helper: visually hidden for accessibility */
+.visually-hidden {
+  position: absolute !important;
+  height: 1px; width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+  .cards-inner { grid-template-columns: repeat(2, 1fr); }
+  .hero-inner { flex-direction: column; align-items: stretch; }
+  .hero-right { align-items: stretch; flex: none; }
+}
+@media (max-width: 640px) {
+  .cards-inner { grid-template-columns: 1fr; }
+  .home-root { padding-top: 88px; padding-bottom: 88px; }
+  .btn { width: 100%; justify-content: center; }
+  .hero-right { align-items: stretch; }
+}
