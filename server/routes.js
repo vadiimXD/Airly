@@ -1,7 +1,6 @@
 const router = require("express").Router();
+const weatherController = require("./controllers/weatherController")
 
-// const authController: any = require("./controllers/authController")
-
-// router.use(authController)
+router.use(weatherController)
 
 module.exports = router
