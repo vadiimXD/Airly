@@ -113,7 +113,7 @@ export default function App() {
             {weather?.hourlyForecast?.map(h => (
               <div key={h.time} style={{ flex: '0 0 auto', textAlign: 'center', padding: '10px 14px', borderRadius: 8, background: '#f8fafc', minWidth: 64 }}>
                 <div style={{ fontSize: 12, color: '#64748b' }}>{h?.time ?? '--'}</div>
-                <div style={{ fontSize: 20, margin: '6px 0' }}>{h?.icon ?? '--'}</div>
+                <div style={{ fontSize: 20, margin: '6px 0' }}>{h?.weatherIcon ?? '--'}</div>
                 <div style={{ fontSize: 14, fontWeight: 600 }}>{h?.temperature ?? '--'}°</div>
               </div>
             ))}

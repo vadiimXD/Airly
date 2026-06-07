@@ -76,7 +76,7 @@ exports.getFullWeather = async (city) => {
                 uvIndex: daily.uv_index_max[0],
                 comfortLevel: getComfortLevel(current.temperature_2m, current.relative_humidity_2m),
             },
-            hourlyForecast: hourly.time.slice(0, 8).map((time, index) => {
+            hourlyForecast: hourly.time.slice(0, 12).map((time, index) => {
                 const date = new Date(time);
                 const formattedTime = date.toLocaleString('bg-BG', {
                     hour: '2-digit',
@@ -85,6 +85,7 @@ exports.getFullWeather = async (city) => {
                 return {
                     time: formattedTime,
                     temperature: hourly.temperature_2m[index],
+                    weatherIcon: getWeatherIcon(hourly.weather_code[index],time),
                 };
             }),
             forecast7Day: daily.time.slice(0, 7).map((date, index) => ({
@@ -165,14 +166,14 @@ function getComfortLevel(temp, humidity) {
         const c7 = 0.00122874;
         const c8 = 0.00085282;
         const c9 = -0.00000199;
-        
+
         const T = temp;
         const RH = humidity;
-        
-        const hi = c1 + (c2 * T) + (c3 * RH) + (c4 * T * RH) + 
-                   (c5 * T * T) + (c6 * RH * RH) + (c7 * T * T * RH) + 
-                   (c8 * T * RH * RH) + (c9 * T * T * RH * RH);
-        
+
+        const hi = c1 + (c2 * T) + (c3 * RH) + (c4 * T * RH) +
+            (c5 * T * T) + (c6 * RH * RH) + (c7 * T * T * RH) +
+            (c8 * T * RH * RH) + (c9 * T * T * RH * RH);
+
         if (hi < 27) return 'Топло';
         if (hi < 32) return 'Горещо';
         if (hi < 41) return 'Горещо и влажно';
@@ -180,4 +181,38 @@ function getComfortLevel(temp, humidity) {
         return 'Опасно горещо';
     }
 
+};
+
+function getWeatherIcon(code,time) {
+   const date = new Date(time);
+    const hour = date.getHours();
+    const isNight = hour < 5 || hour >= 20; // нощ е между 20:00 и 05:00
+
+    const weatherIcons = {
+        0: isNight ? '🌙' : '☀️',
+        1: isNight ? '🌙' : '🌤️',
+        2: isNight ? '🌙' : '⛅',
+        3: '☁️',
+        45: '🌫️',
+        48: '🌫️',
+        51: '🌧️',
+        53: '🌧️',
+        55: '🌧️',
+        61: '🌧️',
+        63: '🌧️',
+        65: '⛈️',
+        71: '❄️',
+        73: '❄️',
+        75: '❄️',
+        77: '❄️',
+        80: '🌧️',
+        81: '🌧️',
+        82: '⛈️',
+        85: '❄️',
+        86: '❄️',
+        95: '⛈️',
+        96: '⛈️',
+        99: '⛈️'
+    };
+    return weatherIcons[code] || '🌤️';
 };
