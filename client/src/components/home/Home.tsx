@@ -55,7 +55,7 @@ export default function App() {
   const [error, setError] = useState('');
   const [weather, setWeather] = useState("")
   // console.log(weather)
-  console.log(weather.hourlyForecast)
+  console.log(weather.forecast7Day)
   const color = aqiColor(weather?.current?.aqi);
 
 
@@ -149,9 +149,9 @@ export default function App() {
               <div style={{ height: '100%', width: `${weather?.current?.humidity ?? "--"}%`, background: '#3b82f6', borderRadius: 4 }} />
             </div>
             <div style={{ fontSize: 13, color: '#64748b' }}>
-              <Row label="Dew Point" value={`${weather?.current?.dewPoint ?? '--'}°`} />
-              <Row label="Comfort Level" value={weather?.current?.comfortLevel ?? '--'} />
-              <Row label="UV Index" value={`${weather?.current?.uvIndex ?? '--'}`} />
+              <Row label="Точка на роса" value={`${weather?.current?.dewPoint ?? '--'}°`} />
+              <Row label="Ниво на комфорт" value={weather?.current?.comfortLevel ?? '--'} />
+              <Row label="УВ индекс" value={`${weather?.current?.uvIndex ?? '--'}`} />
             </div>
           </div>
         </div>
@@ -160,21 +160,21 @@ export default function App() {
         <div style={{ background: '#fff', borderRadius: 12, padding: 24 }}>
           <SectionLabel>7-дневна прогноза</SectionLabel>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
-            {data.weekly.map((w, i) => (
-              <div key={w.day} style={{ display: 'flex', alignItems: 'center', padding: '10px 0', borderBottom: i < data.weekly.length - 1 ? '1px solid #f1f5f9' : 'none' }}>
+            {weather?.forecast7Day?.map((w) => (
+              <div key={w.day} style={{ display: 'flex', alignItems: 'center', padding: '10px 0', borderBottom: 50 < weather?.forecast7Day.length - 1 ? '1px solid #f1f5f9' : 'none' }}>
                 <span style={{ width: 40, fontSize: 14, fontWeight: 600 }}>{w.day}</span>
-                <span style={{ fontSize: 18, marginRight: 12, width: 28 }}>{w.icon}</span>
+                <span style={{ fontSize: 18, marginRight: 12, width: 28 }}>{w.weatherIcon}</span>
                 <div style={{ flex: 1, height: 4, background: '#e2e8f0', borderRadius: 4 }}>
                   <div style={{
-                    marginLeft: `${(w.low - 45) * 3}%`,
-                    width: `${(w.high - w.low) * 3}%`,
+                    marginLeft: `${(w.minTemp - 45) * 3}%`,
+                    width: `${(w.maxTemp - w.minTemp) * 3}%`,
                     height: '100%',
                     background: 'linear-gradient(to right, #93c5fd, #f97316)',
                     borderRadius: 4
                   }} />
                 </div>
-                <span style={{ fontSize: 13, color: '#94a3b8', marginLeft: 12, width: 30, textAlign: 'right' }}>{w.low}°</span>
-                <span style={{ fontSize: 13, fontWeight: 600, marginLeft: 8, width: 30, textAlign: 'right' }}>{w.high}°</span>
+                <span style={{ fontSize: 13, color: '#94a3b8', marginLeft: 12, width: 30, textAlign: 'right' }}>{w.minTemp}°</span>
+                <span style={{ fontSize: 13, fontWeight: 600, marginLeft: 8, width: 30, textAlign: 'right' }}>{w.maxTemp}°</span>
               </div>
             ))}
           </div>

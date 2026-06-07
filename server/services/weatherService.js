@@ -85,17 +85,19 @@ exports.getFullWeather = async (city) => {
                 return {
                     time: formattedTime,
                     temperature: hourly.temperature_2m[index],
-                    weatherIcon: getWeatherIcon(hourly.weather_code[index],time),
+                    weatherIcon: getWeatherIcon(hourly.weather_code[index], time),
                 };
             }),
-            forecast7Day: daily.time.slice(0, 7).map((date, index) => ({
-                date: date,
-                maxTemp: daily.temperature_2m_max[index],
-                minTemp: daily.temperature_2m_min[index],
-                windSpeed: daily.wind_speed_10m_max[index],
-                precipitation: daily.precipitation_sum[index],
-                uvIndex: daily.uv_index_max[index]
-            })),
+            forecast7Day: daily.time.slice(0, 7).map((date, index) => {
+                const dateObj = new Date(date);
+                const dayName = dateObj.toLocaleDateString('bg-BG', { weekday: 'short' });
+                return {
+                    day: dayName,
+                    maxTemp: daily.temperature_2m_max[index],
+                    minTemp: daily.temperature_2m_min[index],
+                    weatherIcon: getWeatherIcon(daily.weather_code[index], date),
+                };
+            }),
             success: true
         };
 
@@ -183,8 +185,8 @@ function getComfortLevel(temp, humidity) {
 
 };
 
-function getWeatherIcon(code,time) {
-   const date = new Date(time);
+function getWeatherIcon(code, time) {
+    const date = new Date(time);
     const hour = date.getHours();
     const isNight = hour < 5 || hour >= 20; // нощ е между 20:00 и 05:00
 
