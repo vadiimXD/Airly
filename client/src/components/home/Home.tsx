@@ -55,8 +55,7 @@ export default function App() {
   const [error, setError] = useState('');
   const [weather, setWeather] = useState("")
   // console.log(weather)
-  // console.log(weather.date)
-  console.log(weather.current)
+  console.log(weather.hourlyForecast)
   const color = aqiColor(weather?.current?.aqi);
 
 
@@ -96,26 +95,26 @@ export default function App() {
         <div style={{ background: '#fff', borderRadius: 12, padding: 28, marginBottom: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 20 }}>
           <div>
             <div style={{ fontSize: 72, fontWeight: 200, lineHeight: 1 }}>{weather?.current?.temperature ?? '--'}°</div>
-            <div style={{ fontSize: 16, color: '#64748b', marginTop: 4 }}>{weather?.current?.condition ?? '--'}</div>
-            <div style={{ fontSize: 13, color: '#94a3b8', marginTop: 4 }}>Feels like {weather?.current?.feelsLike ?? '--'}° &nbsp;·&nbsp; H:66° L:44</div>
+            <div style={{ fontSize: 16, color: '#64748b', marginTop: 4 }}>{weather?.current?.weather ?? '--'}</div>
+            <div style={{ fontSize: 13, color: '#94a3b8', marginTop: 4 }}>Feels like {weather?.current?.feelsLike ?? '--'}° &nbsp;·&nbsp; В:{weather?.current?.highTemp ?? '--'}° Н:{weather?.current?.lowTemp ?? '--'}°</div>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px 32px' }}>
-            <StatItem icon={<Droplets size={14} />} label="Humidity" value={weather?.current?.humidity ?? '--'} />
-            <StatItem icon={<Wind size={14} />} label="Wind" value={`${data.windSpeed} mph ${data.windDir}`} />
-            <StatItem icon={<Eye size={14} />} label="Visibility" value={`${data.visibility} mi`} />
-            <StatItem icon={<Gauge size={14} />} label="Pressure" value={`${data.pressure} hPa`} />
+            <StatItem icon={<Droplets size={14} />} label="Влажност" value={weather?.current?.humidity ?? '--'} />
+            <StatItem icon={<Wind size={14} />} label="Вятър" value={`${weather?.current?.windSpeed ?? '--'} км/ч  `} />
+            <StatItem icon={<Eye size={14} />} label="Видимост" value={`${weather?.current?.visibility ?? '--'} км`} />
+            <StatItem icon={<Gauge size={14} />} label="Налягане" value={`${weather?.current?.pressure ?? '--'} hPa`} />
           </div>
         </div>
 
         {/* Hourly */}
         <div style={{ background: '#fff', borderRadius: 12, padding: 24, marginBottom: 16 }}>
-          <SectionLabel>Hourly Forecast</SectionLabel>
+          <SectionLabel>Часова прогноза</SectionLabel>
           <div style={{ display: 'flex', gap: 8, overflowX: 'auto', paddingBottom: 4 }}>
-            {data.hourly.map(h => (
+            {weather?.hourlyForecast?.map(h => (
               <div key={h.time} style={{ flex: '0 0 auto', textAlign: 'center', padding: '10px 14px', borderRadius: 8, background: '#f8fafc', minWidth: 64 }}>
-                <div style={{ fontSize: 12, color: '#64748b' }}>{h.time}</div>
-                <div style={{ fontSize: 20, margin: '6px 0' }}>{h.icon}</div>
-                <div style={{ fontSize: 14, fontWeight: 600 }}>{h.temp}°</div>
+                <div style={{ fontSize: 12, color: '#64748b' }}>{h?.time ?? '--'}</div>
+                <div style={{ fontSize: 20, margin: '6px 0' }}>{h?.icon ?? '--'}</div>
+                <div style={{ fontSize: 14, fontWeight: 600 }}>{h?.temperature ?? '--'}°</div>
               </div>
             ))}
           </div>
@@ -125,7 +124,7 @@ export default function App() {
 
           {/* Air Quality */}
           <div style={{ background: '#fff', borderRadius: 12, padding: 24 }}>
-            <SectionLabel>Air Quality Index</SectionLabel>
+            <SectionLabel>Качество на въздуха</SectionLabel>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 8 }}>
               <span style={{ fontSize: 44, fontWeight: 700, color }}>{weather?.current?.aqi ?? '--'}</span>
               <span style={{ fontSize: 14, fontWeight: 600, color }}>{weather?.current?.aiqiLabel ?? '--'}</span>
@@ -134,34 +133,32 @@ export default function App() {
               <div style={{ height: '100%', width: `${Math.min(weather?.current?.aqi, 200) / 2}%`, background: color, borderRadius: 4 }} />
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-              <PollutantBox label="PM2.5" value={`${data.pm25} µg`} />
-              <PollutantBox label="PM10" value={`${data.pm10} µg`} />
-              <PollutantBox label="O₃" value={`${data.o3} ppb`} />
-              <PollutantBox label="NO₂" value={`${data.no2} ppb`} />
+              <PollutantBox label="PM2.5" value={`${weather?.current?.pm25 ?? '--'} µg`} />
+              <PollutantBox label="PM10" value={`${weather?.current?.pm10 ?? '--'} µg`} />
             </div>
           </div>
 
           {/* Humidity detail */}
           <div style={{ background: '#fff', borderRadius: 12, padding: 24 }}>
-            <SectionLabel>Humidity & Comfort</SectionLabel>
+            <SectionLabel>Влажност и комфорт</SectionLabel>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 8 }}>
               <span style={{ fontSize: 44, fontWeight: 700, color: '#3b82f6' }}>{weather?.current?.humidity ?? '--'}%</span>
-              <span style={{ fontSize: 13, color: '#64748b' }}>relative humidity</span>
+              <span style={{ fontSize: 13, color: '#64748b' }}>относителна влажност</span>
             </div>
             <div style={{ height: 6, background: '#e2e8f0', borderRadius: 4, marginBottom: 16 }}>
-              <div style={{ height: '100%', width: `${data.humidity}%`, background: '#3b82f6', borderRadius: 4 }} />
+              <div style={{ height: '100%', width: `${weather?.current?.humidity ?? "--"}%`, background: '#3b82f6', borderRadius: 4 }} />
             </div>
             <div style={{ fontSize: 13, color: '#64748b' }}>
-              <Row label="Dew Point" value="58°F" />
-              <Row label="Comfort Level" value="Comfortable" />
-              <Row label="UV Index" value="4 — Moderate" last />
+              <Row label="Dew Point" value={`${weather?.current?.dewPoint ?? '--'}°`} />
+              <Row label="Comfort Level" value={weather?.current?.comfortLevel ?? '--'} />
+              <Row label="UV Index" value={`${weather?.current?.uvIndex ?? '--'}`} />
             </div>
           </div>
         </div>
 
         {/* Weekly */}
         <div style={{ background: '#fff', borderRadius: 12, padding: 24 }}>
-          <SectionLabel>7-Day Forecast</SectionLabel>
+          <SectionLabel>7-дневна прогноза</SectionLabel>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
             {data.weekly.map((w, i) => (
               <div key={w.day} style={{ display: 'flex', alignItems: 'center', padding: '10px 0', borderBottom: i < data.weekly.length - 1 ? '1px solid #f1f5f9' : 'none' }}>
@@ -184,8 +181,8 @@ export default function App() {
         </div>
 
         <div style={{ textAlign: 'center', fontSize: 12, color: '#cbd5e1', marginTop: 24, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
-          <Sun size={12} />
-          Weather data is hardcoded for demonstration purposes
+          <Sun size={30} />
+          CREATED BY VADIIM &copy; 2026
         </div>
       </div>
     </div>
